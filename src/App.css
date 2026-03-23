@@ -1,0 +1,67 @@
+* {
+  font-family: 'Alice', serif !important;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 10px;
+  align-items: center;
+  
+ 
+}
+
+.box-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.box {
+  width: 350px;
+  height: 600px;
+  background-image:url('./assets/kitty.jpg');
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+
+.item {
+  margin-top: 100px;
+  width: 250px;
+  height: 400px;
+ 
+}
+
+.item-img {
+  margin-top: 20px;
+  width: 100%;
+  height: 90%;
+  object-fit: contain;
+   
+}
+
+.item-btn {
+  width: 200px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: baseline;  
+}
+
+.item-btn button {
+  background: none;
+  cursor: pointer;
+  border: none;
+  
+}
+.item-btn button:hover {
+  color: blue;
+}
+.item-btn_img {
+  width: 40px;
+}
