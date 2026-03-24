@@ -5,7 +5,7 @@ import scissors from './assets/scissors.png'
 import rock from './assets/rock.png'
 
 import { useState } from 'react'
-import Scorebox from './component/Scorebox'
+import ScoreBox from './component/ScoreBox'
 
 const choice =  {
     scissors: {
@@ -86,8 +86,8 @@ function App() {
                 <button type='button' onClick={handleReset}>
                   Restart!</button>
               </div>
-            <Scorebox title="Com" result={result} score={comScore}  />
-            <Scorebox title="You" result={result} score={userScore} />
+            <ScoreBox title="Com" result={result} score={comScore}  />
+            <ScoreBox title="You" result={result} score={userScore} />
           </div>
         
           <div className='box-container' >
