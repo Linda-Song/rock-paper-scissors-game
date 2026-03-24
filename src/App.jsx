@@ -1,60 +1,124 @@
-import './App.css';
-import Box from './component/Box.jsx';
-import rock from './assets/rock.png';
-import scissor from './assets/scissor.png';
-import paper from './assets/paper.png';
-import { useState } from 'react';
+import './App.css'
+import Box from './component/Box'
+import paper from './assets/paper.png'
+import scissors from './assets/scissors.png'
+import rock from './assets/rock.png'
 
-const choice = {
-    rock:{
-      name:"Rock",
-      img: rock,
+import { useState } from 'react'
+import ScoreBox from './component/ScoreBox'
+
+const choice =  {
+    scissors: {
+      title: "Scissors",
+      img: scissors,
     },
-    scissor:{
-      name:"Scissor",
-      img: scissor,
-    },
-    paper:{
-      name:"Paper",
+    paper: {
+      title: "Paper",
       img: paper,
-    }
+    },
+    rock:{
+      title: "Rock",
+      img: rock
+    },
   }
 
 function App() {
   const [userSelect, setUserSelect] = useState(null);
-  const play = (game) => {
-    setUserSelect(choice[game])
+  const [comSelect, setComSelect] = useState(null);
+  const [result, setResult] = useState("");
+  const [userScore, setUserScore] = useState(0);
+  const [comScore, setComScore] = useState(0);
+  
+  const play = (select) => {
+    //각각 선택한 것 담기
+    const userObj = choice[select]
+    const comObj = randomChoice();
+    setUserSelect(userObj);
+    setComSelect(comObj);
+    
+    //게임결과에 따라 win,lose,tie 반영하기
+    const gameResult = judgement(userObj,comObj)  
+    setResult(gameResult);
+
+    // 결과에 따라 점수도 같이 반영하기
+    if(gameResult === "Win"){
+      setUserScore(prev => prev +1);
+    } else if (gameResult === "Lose") {
+      setComScore(prev => prev+1);
+    }
   };
+  
+  const randomChoice= () => {
+    const itemArr = Object.keys(choice);
+    const randomSelect = Math.floor(Math.random() * itemArr.length);
+    const final = itemArr[randomSelect];
+    return choice[final];
+  }
 
+  const judgement = (user,com)=> {
+    if(user.title === com.title) return "Tie";
+    if(
+        (user.title === "Rock" && com.title === "Scissors") || 
+        (user.title === "Scissors" && com.title === "Paper") ||
+        (user.title === "Paper" && com.title === "Rock") 
+      ) {
+          return "Win";
+      } return "Lose"
+    };
 
-   return (
+    const handleReset = () => {
+      setUserSelect(null);
+      setComSelect(null);
+      setResult("");
+      setUserScore(0);
+      setComScore(0);
+    };
+
+  
+  return (
     <>
-     <div className='container'>
-      <h1>Let's play </h1>
-      <div className='box-wrapper'>
-        <Box title="YOU" item = {userSelect} />
+    <div className='container'>
+      <h2>Let's play!</h2>
+
+      <div className='gameBox'>
+          <div className='scoreBoard'>
+              <div className='resetScore'>
+                <button type='button' onClick={handleReset}>
+                  Restart!</button>
+              </div>
+            <ScoreBox title="Com" result={result} score={comScore}  />
+            <ScoreBox title="You" result={result} score={userScore} />
+          </div>
         
-      </div>
-      <div className='item-btn'>
-        <button onClick={() => play("scissor")}>
-          <img src={scissor} className='item-btn_img'alt="scissor"/>
+          <div className='box-container' >
+            <Box title="Com" item={comSelect} result={result}/>
+            <Box title="You" item={userSelect} result={result} />
+           
+          </div>
+
+        </div>
+     
+      <div className='playBox'>
+        <button onClick={() =>play("scissors") } className='gameBtn' >
+          <img src={scissors} alt="scissors" className='gameBtn_img'  />
           <p>가위</p>
         </button>
-        <button onClick={() => play("rock")}>
-          <img src={rock} className='item-btn_img'alt="rock"/>
+        <button onClick={() =>play("rock") } className='gameBtn' >
+          <img src={rock} alt="rock" className='gameBtn_img' />
           <p>바위</p>
-          </button>
-        <button onClick={() => play("paper")}>
-          <img src={paper} className='item-btn_img'alt="paper"/>
+        </button>
+        <button onClick={() => play("paper") } className='gameBtn' >
+          <img src={paper} alt="paper"  className='gameBtn_img'/>
           <p>보</p>
-          </button>
+        </button>
       </div>
-    
-    
-    </div>
-     
+       </div>
+      
+      
+   
+      
     </>
-  );
+  )
 }
 
-export default App;
+export default App
